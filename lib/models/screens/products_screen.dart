@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
+
 import 'package:provider/provider.dart';
 import 'package:shop_app_flutter/components/app_drawer.dart';
 import 'package:shop_app_flutter/models/product_list.dart';
@@ -10,8 +9,6 @@ import '../../components/product_item.dart';
 
 class ProductsScreen extends StatelessWidget {
   const ProductsScreen({super.key});
-
-  get i => null;
 
   @override
   Widget build(BuildContext context) {

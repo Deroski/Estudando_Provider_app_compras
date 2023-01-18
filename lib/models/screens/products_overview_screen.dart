@@ -3,10 +3,8 @@ import 'package:provider/provider.dart';
 import 'package:shop_app_flutter/components/app_drawer.dart';
 import 'package:shop_app_flutter/components/badge.dart';
 import 'package:shop_app_flutter/models/cart.dart';
-
 import '../../components/product_grid.dart';
 import '../../utils/app_routes.dart';
-import '../product_list.dart';
 
 enum FilterOptions {
   Favorite,

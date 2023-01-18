@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:shop_app_flutter/models/product.dart';
 import 'package:shop_app_flutter/provider/counter.dart';
 
 class CounterScreen extends StatefulWidget {
