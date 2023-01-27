@@ -150,7 +150,6 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
                 onSaved: (description) =>
                     _formData['description'] = description ?? '',
                 validator: (_description) {
-                  final descripion = _description ?? '';
                   final description = _description ?? '';
                   if (description.trim().isEmpty) {
                     return 'Descrição é obrigatório.';
