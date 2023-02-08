@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_app_flutter/components/app_drawer.dart';
 import 'package:shop_app_flutter/components/badge.dart';
-import 'package:shop_app_flutter/models/cart.dart';
+import 'package:shop_app_flutter/utils/app_routes.dart';
 import '../../components/product_grid.dart';
-import '../../utils/app_routes.dart';
+import '../cart.dart';
 
-enum FilterOptions {
+enum FilterOption {
   Favorite,
   All,
 }
@@ -20,33 +20,36 @@ class ProductsOverviewScreen extends StatefulWidget {
 
 class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
   bool _showFavoriteOnly = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        title: Text('Minha Loja'),
         actions: [
           PopupMenuButton(
-            icon: Icon(Icons.more_vert),
             itemBuilder: (_) => [
               PopupMenuItem(
-                child: Text('Somente Favoritos'),
-                value: FilterOptions.Favorite,
+                child: Text(
+                  'Somente Favoritos',
+                ),
+                value: FilterOption.Favorite,
               ),
               PopupMenuItem(
-                child: Text('Todos'),
-                value: FilterOptions.All,
+                child: Text(
+                  'Todos',
+                ),
+                value: FilterOption.All,
               ),
             ],
-            onSelected: (FilterOptions selectedValue) {
-              setState(
-                () {
-                  if (selectedValue == FilterOptions.Favorite) {
-                    _showFavoriteOnly = true;
-                  } else {
-                    _showFavoriteOnly = false;
-                  }
-                },
-              );
+            onSelected: (FilterOption selectedValue) {
+              setState(() {
+                if (selectedValue == FilterOption.Favorite) {
+                  _showFavoriteOnly = true;
+                } else {
+                  _showFavoriteOnly = false;
+                }
+              });
             },
           ),
           Consumer<Cart>(
@@ -62,12 +65,19 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
             ),
           ),
         ],
-        title: Center(
-          child: Text('Minha loja'),
-        ),
       ),
       body: ProductGrid(_showFavoriteOnly),
       drawer: AppDrawer(),
     );
   }
 }
+
+
+
+
+/* const ProductGrid({
+    Key? key,
+    required this.loadedProducts,
+  }) : super(key: key);
+
+  final List<Product> loadedProducts; */

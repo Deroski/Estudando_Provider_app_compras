@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import '../product.dart';
 import '../product_list.dart';
 
@@ -28,7 +27,6 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-
     if (_formData.isEmpty) {
       final arg = ModalRoute.of(context)?.settings.arguments;
 
@@ -68,9 +66,12 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
 
   void _submitForm() {
     final isValid = _formKey.currentState?.validate() ?? false;
+
     if (!isValid) {
       return;
     }
+
+    _formKey.currentState?.save();
 
     Provider.of<ProductList>(
       context,
@@ -83,23 +84,29 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Fomulário de Produto'),
+        title: Text(
+          'Fomulário de Produto',
+        ),
         actions: [
           IconButton(
             onPressed: _submitForm,
-            icon: Icon(Icons.save),
+            icon: Icon(
+              Icons.save,
+            ),
           ),
         ],
       ),
       body: Padding(
-        padding: EdgeInsets.all(15),
+        padding: const EdgeInsets.all(15),
         child: Form(
           key: _formKey,
           child: ListView(
             children: [
               TextFormField(
                 initialValue: _formData['name']?.toString(),
-                decoration: InputDecoration(labelText: 'Nome:'),
+                decoration: InputDecoration(
+                  labelText: 'Nome',
+                ),
                 textInputAction: TextInputAction.next,
                 onFieldSubmitted: (_) {
                   FocusScope.of(context).requestFocus(_priceFocus);
@@ -107,18 +114,22 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
                 onSaved: (name) => _formData['name'] = name ?? '',
                 validator: (_name) {
                   final name = _name ?? '';
+
                   if (name.trim().isEmpty) {
                     return 'Nome é obrigatório!';
                   }
                   if (name.trim().length < 3) {
-                    return 'Nome precisa no mínimo de 3 letras.';
+                    return 'Nome precisa no mínimo de 3 letras!';
                   }
+
                   return null;
                 },
               ),
               TextFormField(
                 initialValue: _formData['price']?.toString(),
-                decoration: InputDecoration(labelText: 'Preço:'),
+                decoration: InputDecoration(
+                  labelText: 'Preço',
+                ),
                 textInputAction: TextInputAction.next,
                 focusNode: _priceFocus,
                 keyboardType: TextInputType.numberWithOptions(
@@ -127,13 +138,15 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
                 onFieldSubmitted: (_) {
                   FocusScope.of(context).requestFocus(_descriptionFocus);
                 },
-                onSaved: (price) =>
-                    _formData['price'] = double.parse(price ?? '0'),
+                onSaved: (price) => _formData['price'] = double.parse(
+                  price ?? '0',
+                ),
                 validator: (_price) {
                   final priceString = _price ?? '';
                   final price = double.tryParse(priceString) ?? -1;
+
                   if (price <= 0) {
-                    return 'Informe um preço válido.';
+                    return 'Informe um preço válido!';
                   }
                   return null;
                 },
@@ -141,7 +154,7 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
               TextFormField(
                 initialValue: _formData['description']?.toString(),
                 decoration: InputDecoration(
-                  labelText: 'Descrição:',
+                  labelText: 'Descrição',
                 ),
                 //textInputAction: TextInputAction.next,
                 focusNode: _descriptionFocus,
@@ -149,14 +162,17 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
                 maxLines: 3,
                 onSaved: (description) =>
                     _formData['description'] = description ?? '',
+
                 validator: (_description) {
                   final description = _description ?? '';
+
                   if (description.trim().isEmpty) {
-                    return 'Descrição é obrigatório.';
+                    return 'Descrição é obrigatória!';
                   }
-                  if (description.trim().length < 10) {
-                    return 'Descrição precisa no mínimo de 10 letras.';
+                  if (description.trim().length < 3) {
+                    return 'Descrição precisa no mínimo de 10 letras!';
                   }
+
                   return null;
                 },
               ),
@@ -166,11 +182,11 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
                   Expanded(
                     child: TextFormField(
                       decoration: InputDecoration(
-                        labelText: 'Url da Imagem:',
+                        labelText: 'Url da Imagem',
                       ),
+                      keyboardType: TextInputType.url,
                       textInputAction: TextInputAction.done,
                       focusNode: _imageUrlFocus,
-                      keyboardType: TextInputType.url,
                       controller: _imageUrlController,
                       onFieldSubmitted: (_) => _submitForm(),
                       onSaved: (imageUrl) =>
@@ -180,32 +196,35 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
                         if (!isValidImageUrl(imageUrl)) {
                           return 'Informe uma Url válida!';
                         }
+                        return null;
                       },
                     ),
                   ),
                   Container(
-                    margin: EdgeInsets.only(
+                    height: 100,
+                    width: 100,
+                    margin: const EdgeInsets.only(
                       top: 10,
                       left: 10,
                     ),
-                    height: 100,
-                    width: 100,
                     decoration: BoxDecoration(
                       border: Border.all(
                         color: Colors.grey,
-                        width: 1.5,
+                        width: 1,
                       ),
                     ),
                     alignment: Alignment.center,
                     child: _imageUrlController.text.isEmpty
-                        ? Text(
-                            'Informe a Url',
-                          )
+                        ? Text('Informe a Url!')
                         : FittedBox(
-                            child: Image.network(_imageUrlController.text),
+                            child: Image.network(
+                              _imageUrlController.text,
+                              height: 100,
+                              width: 100,
+                            ),
                             fit: BoxFit.cover,
                           ),
-                  ),
+                  )
                 ],
               ),
             ],
@@ -215,3 +234,5 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
     );
   }
 }
+/* 
+https://png.pngtree.com/png-clipart/20220815/ourmid/pngtree-mens-white-polo-shirt-for-clothing-model-mockup-and-passport-photo-png-image_6110906.png */

@@ -1,5 +1,6 @@
 import 'dart:math';
-import 'package:flutter/material.dart';
+
+import 'package:flutter/foundation.dart';
 import 'package:shop_app_flutter/models/product.dart';
 import '../data/dummy_data.dart';
 
@@ -14,7 +15,7 @@ class ProductList with ChangeNotifier {
     return _items.length;
   }
 
-  void saveProduct(Map<String, Object?> data) {
+  void saveProduct(Map<String, Object> data) {
     bool hasId = data['id'] != null;
     final product = Product(
       id: hasId ? data['id'] as String : Random().nextDouble().toString(),
@@ -54,21 +55,27 @@ class ProductList with ChangeNotifier {
   }
 }
 
+
 /* bool _showFavoriteOnly = false;
 
-List<Product> get items {
-  if (_showFavoriteOnly) {
-    return _items.where((prod) => prod.isFavorite).toList();
+  List<Product> get items {
+    if (_showFavoriteOnly) {
+      return _items.where((prod) => prod.isFavorite).toList();
+    }
+    return [..._items];
   }
-  return [..._items];
-}
 
-void showFavoriteOnly() {
-  _showFavoriteOnly = true;
-  notifyListeners();
-}
+  void showFavoriteOnly() {
+    _showFavoriteOnly = true;
+    notifyListeners();
+  }
 
-void showAll() {
-  _showFavoriteOnly = false;
-  notifyListeners();
-} */
+  void showFavoriteAll() {
+    _showFavoriteOnly = false;
+    notifyListeners();
+  }
+
+  void addProduct(Product product) {
+    _items.add(product);
+    notifyListeners();
+  } */

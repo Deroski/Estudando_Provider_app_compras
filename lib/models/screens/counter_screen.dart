@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:shop_app_flutter/provider/counter.dart';
+
+import '../../provider/counter.dart';
+import '../product.dart';
 
 class CounterScreen extends StatefulWidget {
   const CounterScreen({
     Key? key,
-  });
+  }) : super(key: key);
 
   @override
   State<CounterScreen> createState() => _CounterScreenState();
@@ -35,6 +37,7 @@ class _CounterScreenState extends State<CounterScreen> {
               setState(() {
                 provider?.state.dec();
               });
+
               print(provider?.state.value);
             },
             icon: Icon(Icons.remove),

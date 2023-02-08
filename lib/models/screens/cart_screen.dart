@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_app_flutter/components/cart_item_widget.dart';
+import 'package:shop_app_flutter/models/order_list.dart';
+
 import '../cart.dart';
-import '../order_list.dart';
 
 class CartScreen extends StatelessWidget {
   const CartScreen({super.key});
@@ -13,7 +14,9 @@ class CartScreen extends StatelessWidget {
     final items = cart.items.values.toList();
     return Scaffold(
       appBar: AppBar(
-        title: Text('Carrinho'),
+        title: Text(
+          'Carrinho',
+        ),
       ),
       body: Column(
         children: [
@@ -23,7 +26,9 @@ class CartScreen extends StatelessWidget {
               vertical: 25,
             ),
             child: Padding(
-              padding: const EdgeInsets.all(10),
+              padding: const EdgeInsets.all(
+                10,
+              ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -34,19 +39,30 @@ class CartScreen extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  SizedBox(width: 10),
+                  SizedBox(
+                    width: 10,
+                  ),
                   Chip(
                     backgroundColor: Theme.of(context).colorScheme.primary,
                     label: Text(
-                      'R\$${cart.totalAmount.toStringAsFixed(2)}',
+                      'R\$${cart.totalAmount.toStringAsFixed(
+                        2,
+                      )}',
                       style: TextStyle(
-                        color:
-                            Theme.of(context).primaryTextTheme.headline6?.color,
-                      ),
+                          color: Theme.of(context)
+                              .primaryTextTheme
+                              .headline6
+                              ?.color),
                     ),
                   ),
                   Spacer(),
                   TextButton(
+                    child: Text('COMPRAR'),
+                    style: TextButton.styleFrom(
+                      textStyle: TextStyle(
+                        color: Theme.of(context).primaryColor,
+                      ),
+                    ),
                     onPressed: () {
                       Provider.of<OrderList>(
                         context,
@@ -54,12 +70,6 @@ class CartScreen extends StatelessWidget {
                       ).addOrder(cart);
                       cart.clear();
                     },
-                    child: Text('COMPRAR'),
-                    style: TextButton.styleFrom(
-                      textStyle: TextStyle(
-                        color: Theme.of(context).colorScheme.primary,
-                      ),
-                    ),
                   ),
                 ],
               ),
@@ -68,7 +78,7 @@ class CartScreen extends StatelessWidget {
           Expanded(
             child: ListView.builder(
               itemCount: items.length,
-              itemBuilder: (ctx, i) => CartItemWidget(items[i]),
+              itemBuilder: (context, i) => CartItemWidget(items[i]),
             ),
           ),
         ],

@@ -10,15 +10,15 @@ class AppDrawer extends StatelessWidget {
       child: Column(
         children: [
           AppBar(
-            title: Text('Seja Bem Vindo!'),
+            title: Text('Bem Vindo as Compras!'),
             automaticallyImplyLeading: false,
           ),
           Divider(),
           ListTile(
-            leading: Icon(Icons.shop),
-            title: Text(
-              'Loja',
+            leading: Icon(
+              Icons.shop,
             ),
+            title: Text('Loja'),
             onTap: () {
               Navigator.of(context).pushReplacementNamed(
                 AppRoutes.HOME,
@@ -27,10 +27,10 @@ class AppDrawer extends StatelessWidget {
           ),
           Divider(),
           ListTile(
-            leading: Icon(Icons.payment),
-            title: Text(
-              'Pedidos',
+            leading: Icon(
+              Icons.payment,
             ),
+            title: Text('Pedidos'),
             onTap: () {
               Navigator.of(context).pushReplacementNamed(
                 AppRoutes.ORDERS,
@@ -39,10 +39,10 @@ class AppDrawer extends StatelessWidget {
           ),
           Divider(),
           ListTile(
-            leading: Icon(Icons.edit),
-            title: Text(
-              'Gerenciar Produtos',
+            leading: Icon(
+              Icons.edit,
             ),
+            title: Text('Gerenciar Produtos'),
             onTap: () {
               Navigator.of(context).pushReplacementNamed(
                 AppRoutes.PRODUCTS,

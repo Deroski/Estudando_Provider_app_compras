@@ -1,6 +1,8 @@
 import 'dart:math';
-import 'package:flutter/material.dart';
-import 'cart_item.dart';
+
+import 'package:flutter/cupertino.dart';
+import 'package:shop_app_flutter/models/cart_item.dart';
+
 import 'product.dart';
 
 class Cart with ChangeNotifier {
@@ -16,11 +18,9 @@ class Cart with ChangeNotifier {
 
   double get totalAmount {
     double total = 0.0;
-    _items.forEach(
-      (key, cartItem) {
-        total += cartItem.price * cartItem.quantity;
-      },
-    );
+    _items.forEach((key, cartItem) {
+      total += cartItem.price * cartItem.quantity;
+    });
     return total;
   }
 
@@ -56,10 +56,11 @@ class Cart with ChangeNotifier {
     notifyListeners();
   }
 
-  void rmeoveSingleItem(String productId) {
+  void removeSingleItem(String productId) {
     if (!_items.containsKey(productId)) {
       return;
     }
+
     if (_items[productId]?.quantity == 1) {
       _items.remove(productId);
     } else {
@@ -81,6 +82,4 @@ class Cart with ChangeNotifier {
     _items = {};
     notifyListeners();
   }
-
-  void removeSingleItem(String id) {}
 }

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+
 import '../models/order.dart';
 
 class OrderWidget extends StatefulWidget {
   final Order order;
   const OrderWidget({
-    super.key,
     required this.order,
   });
 
@@ -22,27 +22,31 @@ class _OrderWidgetState extends State<OrderWidget> {
         children: [
           ListTile(
             title: Text(
-              'R\$ ${widget.order.total.toStringAsFixed(2)}',
+              'R\$ ${widget.order.total.toStringAsFixed(
+                2,
+              )}',
             ),
             subtitle: Text(
-              DateFormat('dd/MM/yyyy hh:mm').format(widget.order.date),
+              DateFormat('dd/MM/yyyy  hh:mm').format(widget.order.date),
             ),
             trailing: IconButton(
+              onPressed: () {
+                setState(
+                  () {
+                    _expanded = !_expanded;
+                  },
+                );
+              },
               icon: Icon(
                 Icons.expand_more,
               ),
-              onPressed: () {
-                setState(() {
-                  _expanded = !_expanded;
-                });
-              },
             ),
           ),
           if (_expanded)
             Container(
-              padding: const EdgeInsets.symmetric(
+              padding: EdgeInsets.symmetric(
                 horizontal: 15,
-                vertical: 4,
+                vertical: 5,
               ),
               height: (widget.order.products.length * 25.0) + 10,
               child: ListView(
@@ -54,8 +58,8 @@ class _OrderWidgetState extends State<OrderWidget> {
                         Text(
                           product.name,
                           style: TextStyle(
-                            fontWeight: FontWeight.bold,
                             fontSize: 18,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
                         Text(

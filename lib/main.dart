@@ -1,20 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shop_app_flutter/models/cart.dart';
 import 'package:shop_app_flutter/models/order_list.dart';
-import 'package:shop_app_flutter/models/product_list.dart';
-import 'package:shop_app_flutter/models/screens/cart_screen.dart';
 import 'package:shop_app_flutter/models/screens/product_detail_screen.dart';
 import 'package:shop_app_flutter/models/screens/products_overview_screen.dart';
 import 'package:shop_app_flutter/utils/app_routes.dart';
+import 'models/cart.dart';
+import 'models/product_list.dart';
+import 'models/screens/cart_screen.dart';
 import 'models/screens/orders_screen.dart';
 import 'models/screens/product_form_screen.dart';
 import 'models/screens/products_screen.dart';
 
 void main() {
-  runApp(
-    const MyApp(),
-  );
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -22,34 +20,38 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ThemeData tema = ThemeData(
+      fontFamily: 'Lato',
+    );
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (_) => ProductList(),
+          create: (_) => new ProductList(),
         ),
         ChangeNotifierProvider(
-          create: (_) => Cart(),
+          create: (_) => new Cart(),
         ),
         ChangeNotifierProvider(
-          create: (_) => OrderList(),
+          create: (_) => new OrderList(),
         ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.lightGreen)
-              .copyWith(secondary: Colors.yellowAccent),
-          fontFamily: 'Lato',
+        theme: tema.copyWith(
+          colorScheme: tema.colorScheme.copyWith(
+            primary: Colors.black,
+            secondary: Colors.deepOrange,
+          ),
         ),
         //home: ProductsOverviewScreen(),
         routes: {
-          AppRoutes.HOME: (context) => ProductsOverviewScreen(),
-          AppRoutes.PRODUCT_DETAIL: (context) => ProductDetailScreen(),
-          AppRoutes.CART: (context) => CartScreen(),
-          AppRoutes.ORDERS: (context) => OrdersScreen(),
-          AppRoutes.PRODUCTS: (context) => ProductsScreen(),
-          AppRoutes.PRODUCT_FORM: (context) => ProductFormScreen(),
+          AppRoutes.HOME: (ctx) => ProductsOverviewScreen(),
+          AppRoutes.PRODUCT_DETAIL: (ctx) => ProductDetailScreen(),
+          AppRoutes.CART: (ctx) => CartScreen(),
+          AppRoutes.ORDERS: (ctx) => OrdersScreen(),
+          AppRoutes.PRODUCTS: (ctx) => ProductsScreen(),
+          AppRoutes.PRODUCT_FORM: (ctx) => ProductFormScreen(),
         },
       ),
     );
