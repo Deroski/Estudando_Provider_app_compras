@@ -5,6 +5,7 @@ import 'package:shop_app_flutter/models/screens/auth_screen.dart';
 import 'package:shop_app_flutter/models/screens/product_detail_screen.dart';
 import 'package:shop_app_flutter/models/screens/products_overview_screen.dart';
 import 'package:shop_app_flutter/utils/app_routes.dart';
+import 'models/auth.dart';
 import 'models/cart.dart';
 import 'models/product_list.dart';
 import 'models/screens/cart_screen.dart';
@@ -34,6 +35,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (_) => new OrderList(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => new Auth(),
         ),
       ],
       child: MaterialApp(
