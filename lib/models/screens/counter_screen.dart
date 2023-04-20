@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-
+import 'package:logger/logger.dart';
 import '../../provider/counter.dart';
-import '../product.dart';
 
 class CounterScreen extends StatefulWidget {
   const CounterScreen({
@@ -13,12 +12,13 @@ class CounterScreen extends StatefulWidget {
 }
 
 class _CounterScreenState extends State<CounterScreen> {
+  final Logger _logger = Logger();
   @override
   Widget build(BuildContext context) {
     final provider = CounterProvider.of(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text('Exemplo Contador'),
+        title: const Text('Exemplo Contador'),
       ),
       body: Column(
         children: [
@@ -28,9 +28,9 @@ class _CounterScreenState extends State<CounterScreen> {
               setState(() {
                 provider?.state.inc();
               });
-              print(provider?.state.value);
+              _logger.i(provider?.state.value);
             },
-            icon: Icon(Icons.add),
+            icon: const Icon(Icons.add),
           ),
           IconButton(
             onPressed: () {
@@ -38,9 +38,9 @@ class _CounterScreenState extends State<CounterScreen> {
                 provider?.state.dec();
               });
 
-              print(provider?.state.value);
+              _logger.i(provider?.state.value);
             },
-            icon: Icon(Icons.remove),
+            icon: const Icon(Icons.remove),
           ),
         ],
       ),

@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-
 import '../models/order.dart';
 
 class OrderWidget extends StatefulWidget {
   final Order order;
-  const OrderWidget({
+  const OrderWidget({super.key, 
     required this.order,
   });
 
@@ -37,14 +36,14 @@ class _OrderWidgetState extends State<OrderWidget> {
                   },
                 );
               },
-              icon: Icon(
+              icon: const Icon(
                 Icons.expand_more,
               ),
             ),
           ),
           if (_expanded)
             Container(
-              padding: EdgeInsets.symmetric(
+              padding: const EdgeInsets.symmetric(
                 horizontal: 15,
                 vertical: 5,
               ),
@@ -57,14 +56,14 @@ class _OrderWidgetState extends State<OrderWidget> {
                       children: [
                         Text(
                           product.name,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                         Text(
                           '${product.quantity}x R\$ ${product.price}',
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 18,
                             color: Colors.grey,
                           ),

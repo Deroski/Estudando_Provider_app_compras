@@ -3,15 +3,16 @@ import 'package:provider/provider.dart';
 import 'package:shop_app_flutter/exceptions/http_exception.dart';
 import 'package:shop_app_flutter/models/product.dart';
 import 'package:shop_app_flutter/utils/app_routes.dart';
-
 import '../models/product_list.dart';
 
 class ProductItem extends StatelessWidget {
+
+  
   final Product product;
   const ProductItem(
     this.product, {
     Key? key,
-  });
+  }): super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,40 +26,40 @@ class ProductItem extends StatelessWidget {
       title: Text(
         product.name,
       ),
-      trailing: Container(
+      trailing: SizedBox(
         width: 100,
         child: Row(
           children: [
             IconButton(
-              icon: Icon(
+              icon:const Icon(
                 Icons.edit,
               ),
               color: Theme.of(context).colorScheme.primary,
               onPressed: () {
                 Navigator.of(context).pushNamed(
-                  AppRoutes.PRODUCT_FORM,
+                  AppRoutes.productForm,
                   arguments: product,
                 );
               },
             ),
             IconButton(
-              icon: Icon(
+              icon: const Icon(
                 Icons.delete,
               ),
-              color: Theme.of(context).errorColor,
+              color: Theme.of(context).colorScheme.error,
               onPressed: () {
                 showDialog<bool>(
                   context: context,
                   builder: (ctx) => AlertDialog(
-                    title: Text(
+                    title: const Text(
                       'Excluir Produto',
                     ),
-                    content: Text(
+                    content: const Text(
                       'Tem Certeza?',
                     ),
                     actions: [
                       TextButton(
-                        child: Text(
+                        child:const Text(
                           'Não',
                         ),
                         onPressed: () => Navigator.of(ctx).pop(
@@ -66,7 +67,7 @@ class ProductItem extends StatelessWidget {
                         ),
                       ),
                       TextButton(
-                        child: Text(
+                        child:const Text(
                           'Sim',
                         ),
                         onPressed: () => Navigator.of(ctx).pop(

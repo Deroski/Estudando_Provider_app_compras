@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:math';
-
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:shop_app_flutter/exceptions/http_exception.dart';
@@ -8,21 +7,24 @@ import 'package:shop_app_flutter/models/product.dart';
 import 'package:shop_app_flutter/utils/constants.dart';
 
 class ProductList with ChangeNotifier {
+  final String _token;
   List<Product> _items = [];
 
   List<Product> get items => [..._items];
   List<Product> get favoriteItems =>
       _items.where((prod) => prod.isFavorite).toList();
 
+  ProductList(this._token, this._items);
+
   int get itemsCount {
     return _items.length;
   }
 
   Future<void> loadProducts() async {
-    _items.clear();
+    List<Product> loadedProducts = [];
     final response = await http.get(
       Uri.parse(
-        '${Constants.PRODUCT_BASE_URL}.json',
+        '${Constants.productBaseUrl}.json?auth=$_token',
       ),
     );
     if (response.body == 'null') return;
@@ -39,29 +41,32 @@ class ProductList with ChangeNotifier {
         ),
       );
     });
+    _items = loadedProducts;
     notifyListeners();
   }
 
-  Future<void> saveProduct(Map<String, Object> data) {
-    bool hasId = data['id'] != null;
+  Future<void> saveProduct(Map<String, Object> data) async {
+    final id = data['id'] as String;
+    final dynamic hasId = id;
+    final productIndex = _items.indexWhere((p) => p.id == id);
     final product = Product(
-      id: hasId ? data['id'] as String : Random().nextDouble().toString(),
+      id: hasId ? id : Random().nextDouble().toString(),
       name: data['name'] as String,
       description: data['description'] as String,
       price: data['price'] as double,
       imageUrl: data['imageUrl'] as String,
     );
     if (hasId) {
-      return updateProduct(product);
+      await updateProduct(product);
     } else {
-      return addProduct(product);
+      await addProduct(product);
     }
   }
 
   Future<void> addProduct(Product product) async {
     final response = await http.post(
       Uri.parse(
-        '${Constants.PRODUCT_BASE_URL}.json',
+        '${Constants.productBaseUrl}.json',
       ),
       body: jsonEncode(
         {
@@ -94,7 +99,7 @@ class ProductList with ChangeNotifier {
     if (index >= 0) {
       await http.patch(
         Uri.parse(
-          '${Constants.PRODUCT_BASE_URL}/${product.id}.json',
+          '${Constants.productBaseUrl}/${product.id}.json',
         ),
         body: jsonEncode(
           {
@@ -115,17 +120,17 @@ class ProductList with ChangeNotifier {
     int index = _items.indexWhere((p) => p.id == product.id);
 
     if (index >= 0) {
-      final product = _items[index];
+      final removedProduct = _items[index];
       _items.remove(product);
       notifyListeners();
 
       final response = await http.delete(
         Uri.parse(
-          '${Constants.PRODUCT_BASE_URL}/${product.id}.json',
+          '${Constants.productBaseUrl}/${product.id}.json',
         ),
       );
       if (response.statusCode >= 400) {
-        _items.insert(index, product);
+        _items.insert(index, removedProduct);
         notifyListeners();
         throw HttpException(
           messages: 'Não foi possível excluir o produto.',

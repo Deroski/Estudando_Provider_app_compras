@@ -8,7 +8,7 @@ import 'cart.dart';
 import 'order.dart';
 
 class OrderList with ChangeNotifier {
-  List<Order> _items = [];
+  final List<Order> _items = [];
 
   List<Order> get items {
     return [..._items];
@@ -22,7 +22,7 @@ class OrderList with ChangeNotifier {
     _items.clear();
     final response = await http.get(
       Uri.parse(
-        '${Constants.ORDER_BASE_URL}.json',
+        '${Constants.orderBaseUrl}.json',
       ),
     );
     if (response.body == 'null') return;
@@ -52,7 +52,7 @@ class OrderList with ChangeNotifier {
     final date = DateTime.now();
     final response = await http.post(
       Uri.parse(
-        '${Constants.ORDER_BASE_URL}.json',
+        '${Constants.orderBaseUrl}.json',
       ),
       body: jsonEncode(
         {

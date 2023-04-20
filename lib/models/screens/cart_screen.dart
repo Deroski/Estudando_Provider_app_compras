@@ -14,14 +14,14 @@ class CartScreen extends StatelessWidget {
     final items = cart.items.values.toList();
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           'Carrinho',
         ),
       ),
       body: Column(
         children: [
           Card(
-            margin: EdgeInsets.symmetric(
+            margin: const EdgeInsets.symmetric(
               horizontal: 15,
               vertical: 25,
             ),
@@ -32,14 +32,14 @@ class CartScreen extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
+                  const Text(
                     'Total:',
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 10,
                   ),
                   Chip(
@@ -51,11 +51,11 @@ class CartScreen extends StatelessWidget {
                       style: TextStyle(
                           color: Theme.of(context)
                               .primaryTextTheme
-                              .headline6
+                              .titleLarge
                               ?.color),
                     ),
                   ),
-                  Spacer(),
+                  const Spacer(),
                   CartButton(cart: cart),
                 ],
               ),
@@ -90,9 +90,9 @@ class _CartButtonState extends State<CartButton> {
   @override
   Widget build(BuildContext context) {
     return _isLoading
-        ? CircularProgressIndicator()
+        ? const CircularProgressIndicator()
         : TextButton(
-            child: Text('COMPRAR'),
+            child: const Text('COMPRAR'),
             style: TextButton.styleFrom(
               textStyle: TextStyle(
                 color: Theme.of(context).primaryColor,

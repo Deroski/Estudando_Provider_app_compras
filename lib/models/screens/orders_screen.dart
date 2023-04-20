@@ -6,10 +6,10 @@ import '../../components/app_drawer.dart';
 import '../order_list.dart';
 
 class OrdersScreen extends StatelessWidget {
-  /*const OrdersScreen({super.key});
+  const OrdersScreen({super.key});
 
  
-   State<OrdersScreen> createState() => _OrdersScreenState();
+   /*State<OrdersScreen> createState() => _OrdersScreenState();
 }
 
 class _OrdersScreenState extends State<OrdersScreen> { */
@@ -40,19 +40,19 @@ class _OrdersScreenState extends State<OrdersScreen> { */
     //final OrderList orders = Provider.of(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text('Meus Pedidos:'),
+        title: const Text('Meus Pedidos:'),
       ),
-      drawer: AppDrawer(),
+      drawer: const AppDrawer(),
       body: FutureBuilder(
         // <= FB é focado em trabalhar com requisições assíncronas(podemos tratar erros nele também)
         future: Provider.of<OrderList>(context, listen: false).loadOrders(),
         builder: ((context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
+            return const Center(
               child: CircularProgressIndicator(),
             );
           } else if (snapshot.error != null) {
-            return Center(
+            return const Center(
               child: Text(
                 'Ocorreu um erro!',
               ),

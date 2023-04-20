@@ -16,7 +16,7 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
   final _imageUrlFocus = FocusNode();
   final _imageUrlController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-  final _formData = Map<String, Object>();
+  final _formData = <String, Object>{};
   bool _isLoading = false;
 
   @override
@@ -86,13 +86,13 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
       await showDialog<void>(
         context: context,
         builder: (ctx) => AlertDialog(
-          title: Text(
+          title: const Text(
             'Ocorreu um erro!',
           ),
-          content: Text('Ocorreu um erro para salvar o produto.'),
+          content: const Text('Ocorreu um erro para salvar o produto.'),
           actions: [
             TextButton(
-              child: Text(
+              child: const Text(
                 'Ok',
               ),
               onPressed: () => Navigator.of(context).pop(),
@@ -109,20 +109,20 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           'Fomulário de Produto',
         ),
         actions: [
           IconButton(
             onPressed: _submitForm,
-            icon: Icon(
+            icon: const Icon(
               Icons.save,
             ),
           ),
         ],
       ),
       body: _isLoading
-          ? Center(
+          ? const Center(
               child: CircularProgressIndicator(),
             )
           : Padding(
@@ -133,7 +133,7 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
                   children: [
                     TextFormField(
                       initialValue: _formData['name']?.toString(),
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         labelText: 'Nome',
                       ),
                       textInputAction: TextInputAction.next,
@@ -156,12 +156,12 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
                     ),
                     TextFormField(
                       initialValue: _formData['price']?.toString(),
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         labelText: 'Preço',
                       ),
                       textInputAction: TextInputAction.next,
                       focusNode: _priceFocus,
-                      keyboardType: TextInputType.numberWithOptions(
+                      keyboardType: const TextInputType.numberWithOptions(
                         decimal: true,
                       ),
                       onFieldSubmitted: (_) {
@@ -170,8 +170,8 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
                       onSaved: (price) => _formData['price'] = double.parse(
                         price ?? '0',
                       ),
-                      validator: (_price) {
-                        final priceString = _price ?? '';
+                      validator: (preco) {
+                        final priceString = preco ?? '';
                         final price = double.tryParse(priceString) ?? -1;
 
                         if (price <= 0) {
@@ -182,10 +182,10 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
                     ),
                     TextFormField(
                       initialValue: _formData['description']?.toString(),
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         labelText: 'Descrição',
                       ),
-                      //textInputAction: TextInputAction.next,
+                      textInputAction: TextInputAction.next,
                       focusNode: _descriptionFocus,
                       keyboardType: TextInputType.multiline,
                       maxLines: 3,
@@ -210,7 +210,7 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
                       children: [
                         Expanded(
                           child: TextFormField(
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                               labelText: 'Url da Imagem',
                             ),
                             keyboardType: TextInputType.url,
@@ -244,14 +244,14 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
                           ),
                           alignment: Alignment.center,
                           child: _imageUrlController.text.isEmpty
-                              ? Text('Informe a Url!')
+                              ? const Text('Informe a Url!')
                               : FittedBox(
+                                  fit: BoxFit.cover,
                                   child: Image.network(
                                     _imageUrlController.text,
                                     height: 100,
                                     width: 100,
                                   ),
-                                  fit: BoxFit.cover,
                                 ),
                         )
                       ],

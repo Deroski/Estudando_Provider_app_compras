@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_app_flutter/components/app_drawer.dart';
-import 'package:shop_app_flutter/components/badge.dart';
 import 'package:shop_app_flutter/models/product_list.dart';
 import 'package:shop_app_flutter/utils/app_routes.dart';
 import '../../components/product_grid.dart';
 import '../cart.dart';
 
 enum FilterOption {
-  Favorite,
-  All,
+  favorite,
+  all,
 }
 
 class ProductsOverviewScreen extends StatefulWidget {
-  ProductsOverviewScreen({super.key});
+  const ProductsOverviewScreen({super.key});
 
   @override
   State<ProductsOverviewScreen> createState() => _ProductsOverviewScreenState();
@@ -42,26 +41,26 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Center(child: Text('Minha Loja')),
+        title: const Center(child: Text('Minha Loja')),
         actions: [
           PopupMenuButton(
             itemBuilder: (_) => [
-              PopupMenuItem(
+              const PopupMenuItem(
+                value: FilterOption.favorite,
                 child: Text(
                   'Somente Favoritos',
                 ),
-                value: FilterOption.Favorite,
               ),
-              PopupMenuItem(
+              const PopupMenuItem(
+                value: FilterOption.all,
                 child: Text(
                   'Todos',
                 ),
-                value: FilterOption.All,
               ),
             ],
             onSelected: (FilterOption selectedValue) {
               setState(() {
-                if (selectedValue == FilterOption.Favorite) {
+                if (selectedValue == FilterOption.favorite) {
                   _showFavoriteOnly = true;
                 } else {
                   _showFavoriteOnly = false;
@@ -72,21 +71,21 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
           Consumer<Cart>(
             child: IconButton(
               onPressed: () {
-                Navigator.of(context).pushNamed(AppRoutes.CART);
+                Navigator.of(context).pushNamed(AppRoutes.cart);
               },
-              icon: Icon(Icons.shopping_cart),
+              icon: const Icon(Icons.shopping_cart),
             ),
             builder: (ctx, cart, child) => Badge(
-              value: cart.itemsCount.toString(),
+              label: Text(cart.itemsCount.toString()),
               child: child!,
             ),
           ),
         ],
       ),
       body: _isLoading
-          ? Center(child: CircularProgressIndicator())
+          ? const Center(child: CircularProgressIndicator())
           : ProductGrid(_showFavoriteOnly),
-      drawer: AppDrawer(),
+      drawer: const AppDrawer(),
     );
   }
 }

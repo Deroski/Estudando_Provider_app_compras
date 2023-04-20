@@ -1,8 +1,6 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-
 import '../utils/constants.dart';
 
 class Product with ChangeNotifier {
@@ -33,7 +31,7 @@ class Product with ChangeNotifier {
 
       final response = await http.patch(
         Uri.parse(
-          '${Constants.PRODUCT_BASE_URL}/$id.json',
+          '${Constants.productBaseUrl}/$id.json',
         ),
         body: jsonEncode(
           {

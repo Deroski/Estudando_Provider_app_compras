@@ -4,7 +4,7 @@ import 'package:shop_app_flutter/exceptions/auth_exception.dart';
 
 import '../models/auth.dart';
 
-enum AuthMode { Signup, Login }
+enum AuthMode { signUp, login }
 
 class AuthForm extends StatefulWidget {
   const AuthForm({super.key});
@@ -17,21 +17,22 @@ class _AuthFormState extends State<AuthForm> {
   final _passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   bool _isLoading = false;
-  AuthMode _authMode = AuthMode.Login;
-  Map<String, String> _authData = {
+  AuthMode _authMode = AuthMode.login;
+
+  final Map<String, String> _authData = {
     'email': '',
     'password': '',
   };
 
-  bool _isLogin() => _authMode == AuthMode.Login;
-  bool _isSignup() => _authMode == AuthMode.Signup;
+  bool _isLogin() => _authMode == AuthMode.login;
+  bool _isSignup() => _authMode == AuthMode.signUp;
 
   void _switchAuthMode() {
     setState(() {
       if (_isLogin()) {
-        _authMode = AuthMode.Signup;
+        _authMode = AuthMode.signUp;
       } else {
-        _authMode = AuthMode.Login;
+        _authMode = AuthMode.login;
       }
     });
   }
@@ -40,12 +41,12 @@ class _AuthFormState extends State<AuthForm> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text('Ocorreu um Erro'),
+        title: const Text('Ocorreu um Erro'),
         content: Text(msg),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
-            child: Text('Fechar'),
+            child: const Text('Fechar'),
           ),
         ],
       ),
@@ -106,7 +107,7 @@ class _AuthFormState extends State<AuthForm> {
             child: Column(
               children: [
                 TextFormField(
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     labelText: 'E-mail:',
                     labelStyle: TextStyle(
                       fontWeight: FontWeight.bold,
@@ -114,27 +115,27 @@ class _AuthFormState extends State<AuthForm> {
                   ),
                   keyboardType: TextInputType.emailAddress,
                   onSaved: (email) => _authData['email'] = email ?? '',
-                  validator: (_email) {
-                    final email = _email ?? '';
+                  validator: (mensagem) {
+                    final email = mensagem ?? '';
                     if (email.trim().isEmpty || !email.contains('@')) {
-                      return ' Informe um e-mail.válido!';
+                      return 'Informe um e-mail.válido!';
                     }
                     return null;
                   },
                 ),
                 TextFormField(
-                  decoration: InputDecoration(
+                  obscureText: true,
+                  decoration: const InputDecoration(
                     labelText: 'Senha:',
                     labelStyle: TextStyle(
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                   keyboardType: TextInputType.emailAddress,
-                  obscureText: true,
                   controller: _passwordController,
                   onSaved: (password) => _authData['password'] = password ?? '',
-                  validator: (_password) {
-                    final password = _password ?? '';
+                  validator: (senha) {
+                    final password = senha ?? '';
                     if (password.isEmpty || password.length < 5) {
                       return 'Informe uma senha válida!';
                     }
@@ -143,7 +144,7 @@ class _AuthFormState extends State<AuthForm> {
                 ),
                 if (_isSignup())
                   TextFormField(
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: 'Confirmar Senha:',
                       labelStyle: TextStyle(
                         fontWeight: FontWeight.bold,
@@ -153,23 +154,20 @@ class _AuthFormState extends State<AuthForm> {
                     obscureText: true,
                     validator: _isLogin()
                         ? null
-                        : (_password) {
-                            final passaword = _password ?? '';
-                            if (passaword != _passwordController.text) {
+                        : (senha) {
+                            final password = senha ?? '';
+                            if (password != _passwordController.text) {
                               return 'Senha informada não está correta!';
                             }
                             return null;
                           },
                   ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 if (_isLoading)
-                  CircularProgressIndicator()
+                  const CircularProgressIndicator()
                 else
                   ElevatedButton(
                     onPressed: _submit,
-                    child: Text(
-                      _authMode == AuthMode.Login ? 'ENTRAR' : 'REGISTRAR',
-                    ),
                     style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30),
@@ -179,8 +177,11 @@ class _AuthFormState extends State<AuthForm> {
                         vertical: 8,
                       ),
                     ),
+                    child: Text(
+                      _authMode == AuthMode.login ? 'ENTRAR' : 'REGISTRAR',
+                    ),
                   ),
-                Spacer(),
+                const Spacer(),
                 TextButton(
                   onPressed: _switchAuthMode,
                   child: Text(
